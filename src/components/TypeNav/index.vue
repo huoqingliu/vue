@@ -1,8 +1,9 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <div>
+      <div @mouseleave='isShow=true'>
         <h2 class="all">全部商品分类</h2>
+      
       <div class="sort" @mouseleave="currentIndex=-1" @click="toSearch" v-if='isShow'>
         <div class="all-sort-list2">
           <div
@@ -46,10 +47,9 @@
             </div>
           </div>
         </div>
-      
-      
-      
       </div>
+      </div>
+      
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -60,7 +60,6 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      </div>
     </div>
   </div>
 </template>
@@ -78,6 +77,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getBaseCategoryList");
+    const path = this.$route.path
+    if(path!='/'){
+        this.isShow=false
+    }
+
   },
   methods: {
     sub: throttle(function(index) {
