@@ -1,5 +1,6 @@
 <template>
   <div>
+     <TypeNav />
     <h2>Search</h2>
     <p>query参数: keyword={{$route.query.keyword}}</p>
     <p>params参数: keyword={{$route.params.keyword}}</p>
@@ -11,7 +12,7 @@
 <script>
 export default {
   name: 'Search',
-  props: ['keyword1', 'keyword2']   // 一宝要声明接收才可以
+  props: ['keyword1', 'keyword2'] 
 }
 </script>
 

@@ -22,7 +22,15 @@ meta:{
 <Footer v-if="!$route.meta.isHideFooter"/>
    ```
 
+### 编程式路由
 
+```
+// 命名的路由
+router.push({ name: 'user', params: { userId: '123' }})
+
+// 带查询参数，变成 /register?plan=private
+router.push({ path: 'register', query: { plan: 'private' }})
+```
 
 
 
@@ -72,9 +80,8 @@ meta:{
 
 2. #### **问题2: 如何指定params参数可传可不传?**
 
-       ```
-   path: '/search/:keyword?'//在参数后方加一个？
-       ```
+       path: '/search/:keyword?'//在参数后方加一个？
+   
 
    
 
@@ -342,7 +349,7 @@ const getters = {
 
 
 
-方法：（**暂时使用**）
+方法1：（**暂时使用**）
 
 **创建路由跳转标签，点击标签跳转到search路由**
 
