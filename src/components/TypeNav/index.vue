@@ -1,18 +1,9 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
-      <nav class="nav">
-        <a href="###">服装城</a>
-        <a href="###">美妆馆</a>
-        <a href="###">尚品汇超市</a>
-        <a href="###">全球购</a>
-        <a href="###">闪购</a>
-        <a href="###">团购</a>
-        <a href="###">有趣</a>
-        <a href="###">秒杀</a>
-      </nav>
-      <div class="sort" @mouseleave="currentIndex=-1" @click="toSearch">
+      <div>
+        <h2 class="all">全部商品分类</h2>
+      <div class="sort" @mouseleave="currentIndex=-1" @click="toSearch" v-if='isShow'>
         <div class="all-sort-list2">
           <div
             class="item"
@@ -55,6 +46,20 @@
             </div>
           </div>
         </div>
+      
+      
+      
+      </div>
+      <nav class="nav">
+        <a href="###">服装城</a>
+        <a href="###">美妆馆</a>
+        <a href="###">尚品汇超市</a>
+        <a href="###">全球购</a>
+        <a href="###">闪购</a>
+        <a href="###">团购</a>
+        <a href="###">有趣</a>
+        <a href="###">秒杀</a>
+      </nav>
       </div>
     </div>
   </div>
