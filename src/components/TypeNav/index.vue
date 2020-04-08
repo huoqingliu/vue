@@ -67,6 +67,7 @@ export default {
   name: "TypeNav",
   data() {
     return {
+      isShow:true,
       currentIndex: -1 //当前一级分类下标: 需要显示2/3分类列表的一级分类下标
     };
   },
