@@ -84,7 +84,6 @@ router.push({ path: 'register', query: { plan: 'private' }})
    
 
    
-
 3. #### **问题3:指定`params`参数时可不可以用`path`和`params`配置的组合?**
 
    ​    **不可以用`path`和`params`配置的组合**
@@ -349,12 +348,68 @@ const getters = {
 
 
 
-方法1：（**暂时使用**）
+**方法一**：（不推荐）
 
 **创建路由跳转标签，点击标签跳转到search路由**
 
   ```
 <router-link :to="{path: '/search', query: {categoryName: c1.categoryName, category1Id: c1.categoryId}}">{{c1.categoryName}}</router-link>
-
   ```
 
+**方法二**：
+
+**使用事件委托，给父元素绑定事件监听，并调用`push()`方法**
+
+
+
+## 三、`threeday`
+
+### TypeNav动态组件
+
+#### 利用lodash库对高频触发的事件进行函数节流处理
+
+    1). 理解区别函数节流与函数防抖(面试问题)
+    2). 使用lodash进行函数节流与防抖编码处理
+    3). 使用lodash对子列表显示切换进行节流处理
+
+#### 对lodash库实现按需引入, 减小打包文件
+
+    1). 只引入要用的工具函数, 实现对lodash实现按需引入打包
+    2). 好处: 减小打包文件, 访问更快
+
+#### 利用事件委托, 优化事件处理效率
+
+    1). 给多个需要绑定事件的元素的共同父元素绑定事件监听
+    2). 在事件回调函数中取出发生事件的元素: event.target
+    3). 判断此元素是多个目标元素中的某个才进行处理
+
+#### 利用标签自定义属性携带动态数据
+
+    1). 在发生事件的标签指定以data-xXX开头的属性
+      <a :data-categoryName="c3.categoryName" :data-category3Id="c3.categoryId"></a>
+    2). 在事件回调函数通过event得到标签, 从而取出自定义属性值
+      const value = event.target.dataset.xxx
+      注意: xxx是全小写的  ===> 当前得到2个属性: categoryname / category3id
+
+
+### 控制1级列表的显示与隐藏
+
+    1). 需要一个控制一级列表显示的状态数据: isShowFirst
+    2). 在首页一直显示, 在搜索页面默认是隐藏的: 
+        在mounted()中根据根据当前请求的路径判断, 如果是不是首页隐藏
+        在mounseleve中  ==> 如果当前不是首页,隐藏一级列表
+
+### 优化请求执行的位置, 减少请求次数
+
+    问题: 切换路由组件会发多次获取分类列表的请求?
+    原因: 触发请求的代码写在TypeNav组件中, 每渲染一次, 就会发一次请求
+    解决: 触发请求的代码写在App中就可以
+
+## mock数据接口
+
+    问题: 首页只有分类列表的接口, 其它数据的接口还没有写好, 咋办?
+    解决: 自己mock数据接口
+
+### 设计json数据
+
+### 如何实现mock?

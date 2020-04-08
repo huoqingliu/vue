@@ -26,7 +26,7 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <h1 class="logoArea">
-        <a class="logo" title="尚品汇" href="###" target="_blank">
+        <a class="logo" title="谷粒商城" href="javascript:" target="_self" @click="toHome()" >
           <img src="./images/logo.png" alt="">
         </a>
       </h1>
@@ -53,6 +53,9 @@
     methods: {
       toSearch () {
         this.$router.push({name: 'search', params: {keyword: this.keyword}})  // 不可以
+      },
+      toHome(){
+         this.$router.push({ path: '/'})
       }
     }
   }

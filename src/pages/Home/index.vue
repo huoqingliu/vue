@@ -35,6 +35,11 @@
   import Rank from './Rank/Rank'
   export default {
     name: 'Home',
+
+    mounted(){
+      this.$store.dispatch('getBanners')
+      this.$store.dispatch('getFloors')
+    },
     components: { // 局部注册, 只能在当前组件中使用
       TodyRecommend,
       Brand,

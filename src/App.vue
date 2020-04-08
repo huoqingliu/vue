@@ -16,11 +16,14 @@ import { reqBaseCategoryList } from "@/api";
 export default {
   name: "App",
   async mounted() {
-    const reult = await reqBaseCategoryList()
+    // const reult = await reqBaseCategoryList()
+    
+    this.$store.dispatch("getBaseCategoryList");
+
   },
 
   components: {
-    Header,
+    Header, 
     Footer
   }
 };
