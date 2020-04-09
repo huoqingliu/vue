@@ -1,13 +1,15 @@
 ## 一、oneday
 
-###` this.$router`和`this.$route`的区别
+### ` this.$router`和`this.$route`的区别
 
-    this.$router: 得到的是路由器对象(包含跳转路由的一些方法)
-    this.$route: 得到的是当前路由信息对象(包含的是当前路由的相关数据属性: path/params/query/meta)
+```
+this.$router: 得到的是路由器对象(包含跳转路由的一些方法)
+this.$route: 得到的是当前路由信息对象(包含的是当前路由的相关数据属性: path/params/query/meta)
+```
 
 
 
-### **`Footer`组件**
+### `Footer`组件
 
   如何控制`footer`/`header`组件在部分路由组件上不显示?
 
@@ -21,6 +23,8 @@ meta:{
 
 <Footer v-if="!$route.meta.isHideFooter"/>
    ```
+
+
 
 ### 编程式路由
 
@@ -47,26 +51,30 @@ router.push({ path: 'register', query: { plan: 'private' }})
 
 
 <hr>
-### 	一些面试问题
 
+### 	 一些面试问题
 
 1. #### **问题1：`gationDuplicated`的错误**
 
    #####      方案1: 在跳转时指定成功或失败的回调函数，//但是不如第二个方法
 
-           this.$router.push('/search', () => {  // 可以
-              console.log('跳转成功')
-           }) 
-           this.$router.push('/search').then(() => {})  // 不可以
-           this.$router.push('/search', undefined, () => {})  // 可以
-           this.$router.push('/search').catch(() => {}) // 可以
+   ```
+   this.$router.push('/search', () => {  // 可以
+   console.log('跳转成功')
+   }) 
+   this.$router.push('/search').then(() => {})  // 不可以
+   this.$router.push('/search', undefined, () => {})  // 可以
+   this.$router.push('/search').catch(() => {}) // 可以
+   ```
+
+   
 
    ​    
 
    ##### 方案2: 修正Vue原型上的push和replace方法 (优秀)
 
    ```
-//router下的index.js页面
+   //router下的index.js页面
    VueRouter.prototype.push = function (location, onComplete = () => {}, onAbort) {
      return originPush.call(this, location, onComplete, onAbort)
    }
@@ -75,7 +83,7 @@ router.push({ path: 'register', query: { plan: 'private' }})
      return originPush.call(this, location, onComplete, onAbort).catch(() => {})
    }
    ```
-   
+
    
 
 2. #### **问题2: 如何指定params参数可传可不传?**
@@ -821,8 +829,7 @@ toSearch(event) {
          通过$nextTick(callback)能知道界面因为这个数据发生改变而更新
        
        解决方案3: callback + $nextTick  后面合适时机再说
-     
-
+   
 3. ### 抽取可复用的轮播组件`Carouse`
 
    #### 组件`Carouse`
