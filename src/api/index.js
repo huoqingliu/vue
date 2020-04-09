@@ -17,6 +17,6 @@ export const reqBanners = () => mockAjax.get('/banners')
 export const reqFloors = () => mockAjax.get('/floors')
 
 
-reqBanners().then(result => {
-  console.log(result);
-})
+// reqBanners().then(result => {
+//   console.log(result);
+// })
