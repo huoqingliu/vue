@@ -95,12 +95,12 @@ export default {
       this.currentIndex = index;
     }, 200),
     toSearch(event) {
-      console.dir(event.target);
+      // console.dir(event.target);
       // 得到所有标签上的data自定义属性
       const dataset = event.target.dataset;
-      console.log("dataset", dataset);
+      // console.log("dataset", dataset);
       const { categoryname, category1id, category2id, category3id } = dataset;
-      console.log("category1id", category1id);
+      // console.log("category1id", category1id);
 
       if (categoryname) {
         const query = { categoryName: categoryname };
@@ -111,8 +111,15 @@ export default {
         } else if (category3id) {
           query.category3Id = category3id;
         }
-        this.$router.push({ path: "/search", query });
-        // console.log("query", query);
+        const {path, params} = this.$route
+        if (path.indexOf('/search')===0) {
+          // 跳转到搜索, path为原本的路径(可能携带了params参数)
+          // this.$router.replace({path, query}) // 用replace()是为了后面能直接回退到home
+          this.$router.replace({name: 'search', params, query})
+        } else { // 当前没在搜索界面
+          // 跳转路由, 并携带query参数
+          this.$router.push({path: '/search', query})
+        }
       }
     },
     homeShow() {

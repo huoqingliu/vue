@@ -26,7 +26,7 @@ export default {
     //外部传入的数据
   },
   mounted() {
-    console.log("mounted", this.carouselList.length);
+    // console.log("mounted", this.carouselList.length);
   },
 
   watch: {

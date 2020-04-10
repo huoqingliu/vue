@@ -19,7 +19,11 @@ Vue.config.productionTip = false;
 Vue.component('TypeNav', TypeNav) 
 Vue.component('Carousel', Carousel) 
 
+
 new Vue({
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  },
   // el: '#app'
   render: h => h(App),  // 将App组件对象渲染到页面上
   router, // 配置路由器

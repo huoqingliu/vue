@@ -52,11 +52,47 @@
 
     methods: {
       toSearch () {
-        this.$router.push({name: 'search', params: {keyword: this.keyword}})  // 不可以
+        const {path,query}=this.$route;
+        if (this.keyword) {
+          if (path.indexOf('/search')===0) {
+            this.$router.push({
+              name: 'search', 
+              params: {keyword: this.keyword},
+              query
+              })
+              
+              
+          } else {
+            this.$router.push({
+              name: 'search', 
+              params: {keyword: this.keyword},
+              })
+              
+          }
+        }else{
+          if (path.indexOf('/search')===0) {
+            this.$router.replace({
+              name: 'search', 
+              params,
+              query
+              })
+             
+          } else {
+            this.$router.replace({
+              name: 'search', 
+              })
+              
+          }
+        }
       },
       toHome(){
          this.$router.push({ path: '/'})
       }
+    },
+    mounted(){
+      this.$bus.$on('removeKeyword',()=>{
+        this.keyword =''
+      })
     }
   }
 </script>

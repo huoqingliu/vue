@@ -16,7 +16,10 @@ export const reqBanners = () => mockAjax.get('/banners')
 // 请求mock接口，获取所有楼层列表数据
 export const reqFloors = () => mockAjax.get('/floors')
 
+//请求接口，返回搜索结果
+export const reqProductList = (searchParams)=>ajax.post(`/list`,searchParams)
 
+// reqProductList({});
 // reqBanners().then(result => {
 //   console.log(result);
 // })

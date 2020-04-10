@@ -12,7 +12,7 @@ const state = {
 }
 const mutations = {
   RECEIVE_CATEGORYS(state, categorys) {
-    state.baseCategoryList = categorys.splice(0, categorys.length-2)
+    state.baseCategoryList = categorys
   },
 
   RECEIVE_BANNERS(state, banners) {
