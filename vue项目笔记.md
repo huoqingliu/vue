@@ -401,10 +401,103 @@ toSearch(event) {
 1. #### 利用`lodash`库对高频触发的事件进行函数节流处理
 
    1). 理解区别函数节流与函数防抖(面试问题)
-   2). 使用`lodash`进行函数节流与防抖编码处理
-   3). 使用`lodash`对子列表显示切换进行节流处理
+
+    函数节流是指一定时间内js方法只跑一次。比如人的眨眼睛，就是一定时间内眨一次。
+
+    函数防抖是指频繁触发的情况下，只有足够的空闲时间，才执行代码一次
+
+   2). 自定义函数节流
+
+
+   ```
+   自定义函数节流
+   // 对函数进行 节流
+    function throttle (fn, interval = 500) {
+        let timer = null;
+        let firstTime = true;
+
+        return function (...args) {
+            if (firstTime) {
+              // 第一次加载
+                fn.apply(this, args);
+                return firstTime = false;
+            }
+            if (timer) {
+              // 定时器正在执行中，跳过
+                return;
+            }
+            timer = setTimeout(() => {
+                clearTimeout(timer);
+                timer = null;
+                fn.apply(this, args);
+            }, interval);
+        };
+    }
+    // 需要被节流的 函数
+    function scrollHandler (arg) {
+        console.log(`${arg}--被执行了`);
+    }
+    // 被节流的函数 -- 节流限制： 每 1000 毫秒执行一次
+    const throttleFunc = throttle(scrollHandler, 1000);
+    let i = 0;
+    // 模拟 页面滚动事件
+    setInterval(() => {
+        console.log(`${i} --- 进来了，但是不知道有没有执行`);
+        throttleFunc(i++);
+    }, 10);
+   ```
 
    
+
+   3). 自定义函数防抖
+
+    
+   ```
+   自定义函数防抖
+    function debounce(method,context){
+      clearTimeout(method.tId); 
+      method.tId = setTimeout(function(){
+          method.call(context);
+      },1000);
+    }
+
+   ```
+   
+   4).使用`lodash`库
+
+  节流
+   ```
+   import throttle from "lodash/throttle";
+
+   handleMove:throttle(function (event){
+
+   },200)
+
+   函数名：throttle(function (event){
+
+   },节流时间)
+   即：throttle(函数,防抖时间)
+
+   ```
+
+   防抖
+   ```
+   import throttle from "lodash/throttle";
+
+   handleMove:throttle(function (event){
+
+   },200)
+
+   函数名：debounce(function (event){
+
+   },防抖时间)
+   即：debounce(函数,防抖时间)
+
+
+
+   ```
+
+
 
 2. #### 对`lodash`库实现按需引入, 减小打包文件
 
@@ -979,3 +1072,77 @@ toSearch(event) {
 ### 动态显示商品部分信息
     dispatch()
     mapState() / mapGetters()
+
+
+## seven-day
+
+  #### localStorage
+     生命周期是永久，这意味着除非用户显示在浏览器提供的UI上清除localStorage信息，否则这些信息将永远存在。存放数据大小为一般为5MB,而且它仅在客户端（即浏览器）中保存，不参与和服务器的通信
+
+  #### sessionStorage
+     仅在当前会话下有效，关闭页面或浏览器后被清除。存放数据大小为一般为5MB,而且它仅在客户端（即浏览器）中保存，不参与和服务器的通信。源生接口可以接受，亦可再次封装来对Object和Array有更好的支持。
+
+   
+
+  #### localStorage和sessionStorage使用时使用相同的API：
+      localStorage.setItem("key","value");//以“key”为名称存储一个值“value”
+
+      localStorage.getItem("key");//获取名称为“key”的值
+
+      localStorage.removeItem("key");//删除名称为“key”的信息。
+
+      localStorage.clear();​//清空localStorage中所有信息
+
+  ### 放大镜组件: Zoom
+
+
+  ### 初始显示报错
+      问题: Cannot read property 'imgUrl' of undefined"
+      原因: 模板中有3层表达式(a.b.c), 如: skuImageList[currentImgIndex].imgUrl
+          skuImageList的初始值为[], 这个3层表达式在初始解析时就会报错
+      解决: 利用v-if来判断限制初始没有数据时解析: v-if="skuImageList.length>0"
+
+
+  ​    
+  ### sessionStorage与locaStorage区别?  面试题
+      相同点:
+          都纯浏览器端存储
+          语法一样: setItem(key, value)/getItem(key)/removeItem(key)
+      不同点: 
+          sessionStorage: 
+              存在于浏览器的运行时内存中  ==> 浏览器关闭数据被清除, 重新打开读取不到
+              操作相对快些
+          locaStorage: 
+              保存在浏览器管理的本地文件中  ==> 浏览器关闭再打开还在可以读取到
+              操作相对慢些
+
+  ### 如何根据分发异步action的成功或失败做不同处理?
+      1). 方式一: 使用callback: 
+          1). 在组件中: 在dispatch时指定一个回调函数数据
+          2). 在异步action中: 在请求处理成功或失败后, 调用callback, 并传入errorMsg(可能有值或没有)
+          3). 在回调函数:  如果接收的errorMsg有值, 提示错误, 否则做成功后的处理 
+      2). 方式二: 利用async函数
+          前提: async函数执行的返回值是一个promise对象
+              promise成功的value: 函数体执行没有出错, 那return的就是value(不能是失败的promise)
+              promise失败的reason: 函数体执行出错/抛出error/返回一个失败的promise
+              store.dispatch()的返回值就是action函数的返回值
+          1). 在组件中: 正常分发action: this.$store.dispatch('addToCart2', query)
+          2). 在异步action中: 在请求处理成功或失败后, 返回相关的errorMsg(可能有值或没有)
+              return result.code===200 ? '' : (result.message || '添加购物车失败')
+          3). 在组件中: 通过await来得到errorMsg, 根据它来做相应处理
+
+  ## 所有ajax请求都需要携带用户临时ID数据
+      1). 理解userTempId的特点
+          每个客户端应该不相同
+          同一个客户端应该不要发生变化, 如果中途变化了, 前面通过userTempId保存在后台的数据就找不到了
+      2). userTempId的生成和保存
+          生成: 使用uuidjs生成一个随机唯一值(与别人不同, 与我前面生成的也不一样)
+          保存: 
+              持久化保存: 将userTempId保存到localStorage中
+              内存中保存: 将userTempId也保存在vuex的状态中  (为了更快的读取)
+              state = {
+                  userTempId: getUUID()  // 如果local中没有生成一个新的并保存, 如果有直接返回
+              }
+      3). 发送请求时携带已保存的userTempId
+          在请求拦截器中: 读取state中保存的userTempId, 并添加到请求头中
+          config.headers['userTempId'] = store.state.user.userTempId

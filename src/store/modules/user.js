@@ -1,6 +1,10 @@
+import { getUUID } from "@/utils/storageUtils";
+
 const state = {
-  userInfo:{}
+  userInfo: {},
+  userTempId:getUUID()
 }
+
 const mutations = {
 
 }

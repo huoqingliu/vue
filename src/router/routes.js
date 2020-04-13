@@ -6,6 +6,8 @@ import Search from '@/pages/Search'
 import Register from '@/pages/Register'
 import Login from '@/pages/Login'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/Detail/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 
 
 export default [
@@ -44,5 +46,15 @@ export default [
     name: 'detail', // 如果是params参数需要指定此名称
     path: '/detail/:skuId', // 指定通过params参数携带数据  ?代表params参数可以不传
     component: Detail,
+  },
+  {
+    name: 'addCartSuccess', // 如果是params参数需要指定此名称
+    path: '/addCartSuccess', // 指定通过params参数携带数据  ?代表params参数可以不传
+    component: AddCartSuccess,
+  },
+  {
+    name: 'shopCart', // 如果是params参数需要指定此名称
+    path: '/shopCart', // 指定通过params参数携带数据  ?代表params参数可以不传
+    component: ShopCart,
   }
 ]

@@ -1,6 +1,7 @@
 import axios from "axios";
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import store from "@/store";
 
 const ajax = axios.create({
   baseURL: '/api',
@@ -12,6 +13,7 @@ ajax.interceptors.request.use((config) => {
   // 显示请求进度条
   NProgress.start()
 
+  config.headers['userTempId']=store.state.user.userTempId
   // 必须返回config
   return config
 })

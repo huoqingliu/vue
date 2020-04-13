@@ -1,8 +1,12 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="skuImage in skuImageList" :key="skuImage.id">
-        <img :src="skuImage.imgUrl" />
+      <div class="swiper-slide" v-for="(skuImage, index) in skuImageList" :key="skuImage.id">
+        <img
+          :src="skuImage.imgUrl"
+          :class="{active:currentIndex==index}"
+          @click="changeCurrentIndex(index)"
+        />
       </div>
     </div>
     <div class="swiper-button-next"></div>
@@ -16,10 +20,12 @@ import { mapGetters } from "vuex";
 export default {
   name: "ImageList",
   // props:{
-  //   skuImageList:Array
+  //   changeCurrentIndex:Function
   // },
   data() {
-    return {};
+    return {
+      currentIndex: 0
+    };
   },
 
   /* mounted() {
@@ -33,6 +39,33 @@ export default {
 
   computed: {
     ...mapGetters(["skuImageList"])
+  },
+  watch: {
+    skuImageList: {
+      handler(value) {
+        // 如果图片数组长度为0, 直接结束
+        if (value.length == 0) return;
+        // 延迟到界面更新后才创建swiper对象
+        this.$nextTick(() => {
+          new Swiper(this.$refs.swiper, {
+            slidesPerView: 5, // 一次显示5页
+            slidesPerGroup: 2, // 以2页为单位翻页
+            navigation: {
+              //指定翻页按钮
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev"
+            }
+          });
+        });
+      },
+      immediate: true // 初始化立即调用
+    }
+  },
+  methods: {
+    changeCurrentIndex(index) {
+      this.currentIndex = index;
+      this.$emit("changeCurrentIndex", index);
+    }
   }
 };
 </script>

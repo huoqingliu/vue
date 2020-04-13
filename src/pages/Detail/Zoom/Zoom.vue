@@ -1,23 +1,22 @@
 <template>
   <div class="spec-preview">
-    <img :src="skuInfo.skuDefaultImg" />
+    <img :src="imgUrl" />
     <div class="mask" ref="mask" @mousemove="handleMove"></div>
     <div class="big">
-      <img :src="skuInfo.skuDefaultImg" />
+      <img :src="bigImgUrl" ref="bigImg"/>
     </div>
     <div class="small" ref="small"></div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import throttle from "lodash/throttle";
+
 export default {
   name: "Zoom",
-  // props: {
-  //   skuDefaultImg: String
-  // },
-  computed: {
-    ...mapGetters(["skuInfo"])
+  props: {
+    imgUrl: String,
+    bigImgUrl:String
   },
   data(){
     return{
@@ -31,7 +30,7 @@ export default {
 
   },
   methods:{
-    handleMove(event){
+    handleMove:throttle(function (event){
       const {offsetX,offsetY}=event
       // console.log(offsetX,offsetY);
 
@@ -56,7 +55,12 @@ export default {
       const smallDiv = this.$refs.small
       smallDiv.style.left = left +'px'
       smallDiv.style.top = top+ 'px'
-    }
+
+      const bigImg = this.$refs.bigImg
+      bigImg.style.left = -2*left +'px'
+      bigImg.style.top = -2*top+ 'px'
+
+    },50)
   }
 };
 </script>

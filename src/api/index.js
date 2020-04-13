@@ -22,6 +22,21 @@ export const reqProductList = (searchParams) => ajax.post(`/list`, searchParams)
 //请求接口，返回商品详情信息
 export const reqDetailInfo = (skuId) => ajax.get(`/item/${skuId}`)
 
+//添加到购物车
+export const reqAddToCart = (skuId, skuNum) => ajax.post(`/cart/addToCart/${skuId}/${skuNum}`)
+
+//获取购物车列表
+export const reqCartList = () => ajax.get('/cart/cartList')
+
+//切换商品选中状态
+export const reqCheckCartItem = () => ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
+
+// 删除购物车商品 /api/cart/deleteCart/{skuId}
+export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)
+
+
+//测试数据
+
 // reqDetailInfo();
 // reqBanners().then(result => {
 //   console.log(result);

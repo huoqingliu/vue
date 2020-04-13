@@ -16,9 +16,13 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom
+            v-if="skuImageList.length>0"
+            :imgUrl="skuImageList[currentIndex].imgUrl"
+            :bigImgUrl="skuImageList[currentIndex].imgUrl"
+          />
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList @changeCurrentIndex="changeCurrentIndex" />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -78,12 +82,12 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum" />
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum>1?skuNum--:skuNum=1">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="toAddCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -327,16 +331,22 @@ import Zoom from "./Zoom/Zoom";
 import { mapGetters } from "vuex";
 export default {
   name: "Detail",
+  data(){
+    return{
+      currentIndex:0,      
+      skuNum:1
+    }
+  },
   mounted() {
     // 取出skuId的params参数
     const skuId = this.$route.params.skuId;
-    console.log(skuId);
+    // console.log(skuId);
     
     // 分发给获取商品详情的异步action
     this.$store.dispatch("getDetailInfo", skuId);
   },
   computed: {
-    ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"])
+    ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList",'skuImageList'])
   },
   methods: {
     selectValue(value, valueList) {
@@ -347,7 +357,28 @@ export default {
         // 选中当前的
         value.isChecked = "1";
       }
-    }
+    },
+    changeCurrentIndex(index){
+      this.currentIndex = index
+    },
+    async toAddCart(){
+      this.query ={skuId : this.skuInfo.id,skuNum: this.skuNum}
+      // this.$store.dispatch('addToCart',{...this.query,callback:this.callback})
+
+      const errorMsg = await this.$store.dispatch('addToCart2',this.query)
+      this.callback(errorMsg)
+
+    },
+    callback(errorMsg){
+        if (!errorMsg) {
+          //保存skuInfo到sessionStorage中
+          window.sessionStorage.setItem('SKU_INFO_KEY', JSON.stringify(this.skuInfo))
+
+          this.$router.push({path: '/addCartSuccess',query:this.query})
+        }else{
+          alert(errorMsg)
+        }
+      }
   },
   components: {
     ImageList,
