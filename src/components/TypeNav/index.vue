@@ -1,7 +1,7 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <div @mouseleave="homeShow()" @mouseenter="isShow=true">
+      <div @mouseleave="homeShow" @mouseenter="isShow=true">
         <h2 class="all">全部商品分类</h2>
 
         <div class="sort" @mouseleave="currentIndex=-1" @click="toSearch" v-if="isShow">
@@ -16,8 +16,8 @@
               <!-- @mouseenter="currentIndex=index" -->
               <h3>
                 <!-- <router-link
-                :to="{path: '/search', query: {categoryName: c1.categoryName, category1Id: c1.categoryId}}"
-                >{{c1.categoryName}}</router-link>-->
+                :to="{name: 'search', query: {categoryName: c1.categoryName, category1Id: c1.categoryId}}"
+                >{{c1.categoryName}}</router-link> -->
                 <a
                   href="javascript:"
                   :data-categoryName="c1.categoryName"
@@ -41,7 +41,7 @@
                       <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
                         <!-- <router-link
                         :to="{path: '/search', query: {categoryName: c3.categoryName, category3Id: c3.categoryId}}"
-                        >{{c3.categoryName}}</router-link>-->
+                        >{{c3.categoryName}}</router-link> -->
                         <a
                           href="javascript:"
                           :data-categoryName="c3.categoryName"
@@ -124,7 +124,7 @@ export default {
     },
     homeShow() {
     const path = this.$route.path;
-      if (path != "/") {
+      if (path !== "/") {
         this.isShow = false;
         // console.log(this.isShow);
       }

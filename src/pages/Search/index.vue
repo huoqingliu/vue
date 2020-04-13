@@ -40,9 +40,7 @@
             <div class="navbar-inner filter">
               <ul class="sui-nav">
                 <li :class="{active: isActive('1')}" @click="setOrder('1')">
-                  <a href="javascript:">
-                    综合 {{getOrderIcon('1')}}
-                    </a>
+                  <a href="javascript:">综合 {{getOrderIcon('1')}}</a>
                 </li>
                 <li>
                   <a href="javascript:">销量</a>
@@ -64,9 +62,14 @@
               <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank">
+                    <!-- <router-link :to="`/detail/${goos.id}`"> -->
+
+                    <router-link :to="{name: 'detail',params:{skuId:goods.id}}">
                       <img :src="goods.defaultImg" />
-                    </a>
+                    </router-link>
+                    <!-- <router-link :to="{name: 'detail',params:{skuID:goods.id}}">
+                      <img :src="goods.defaultImg" />
+                    </router-link> -->
                   </div>
                   <div class="price">
                     <strong>
@@ -75,7 +78,7 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a target="_blank" href :title="goods.title">{{goods.title}}</a>
+                    <router-link :to="`/detail/${goods.id}`">{{goods.title}}</router-link>
                   </div>
                   <div class="commit">
                     <i class="command">
@@ -95,39 +98,15 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted">
-                  <span>...</span>
-                </li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div>
-                <span>共10页&nbsp;</span>
-              </div>
-            </div>
-          </div>
+          <Pagination
+            :pageConfig="{
+            total: productList.total, 
+            pageSize: options.pageSize, 
+            pageNo: options.pageNo,
+            showPageNo: 3 
+            }"
+            @changeCurrentPage="getProductList"
+          />
         </div>
       </div>
     </div>
@@ -136,7 +115,7 @@
 
 <script>
 import SearchSelector from "./SearchSelector/SearchSelector";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "Search",
   data() {
@@ -153,10 +132,17 @@ export default {
         pageSize: 5, // 每页最多显示多少条数据
         props: [] // 多个属性条件组件的数组   [‘属性ID:属性值:属性名’]
       }
+      // pageConfig: {
+      //   total: 20, // 总记录数量
+      //   pageSize: 5, //this.options.pageSize, // 一页最多显示多条记录
+      //   pageNo: 1,//this.options.pageNo, // 当前在第几页
+      //   showPageNo: 5 // 连续显示的页码数
+      // }
     };
   },
 
   mounted() {
+    /* 
     const { query, params } = this.$route;
     const options = {
       ...this.options,
@@ -165,10 +151,12 @@ export default {
     };
     // console.log(options);
     this.options = options;
-    this.getProductList();
+    this.getProductList(); 
+    */
   },
   methods: {
-    getProductList() {
+    getProductList(pageNo = 1) {
+      this.options.pageNo = pageNo;
       this.$store.dispatch("getProductList", this.options);
     },
     removeCategory() {
@@ -184,7 +172,9 @@ export default {
       this.$router.push({ name: "search", query: this.$route.query });
     },
     removeTrademark() {
-      this.options.trademark = "";
+      // this.options.trademark = "";
+      // delete this.options.trademark
+      this.$delete(this.options, "trademark");
       this.getProductList();
     },
     removeProp(index) {
@@ -210,13 +200,13 @@ export default {
     setOrder(orderFlag) {
       let [flag, orderType] = this.options.order.split(":");
       if (orderFlag === flag) {
-        orderType = orderType==="desc" ? 'asc' : 'desc'
+        orderType = orderType === "desc" ? "asc" : "desc";
       } else {
         flag = orderFlag;
-         orderType = "desc" 
+        orderType = "desc";
       }
-      this.options.order =flag+":"+orderType
-      this.getProductList()
+      this.options.order = flag + ":" + orderType;
+      this.getProductList();
     },
     getOrderIcon(orderFlag) {
       // '1' / '2'
@@ -230,9 +220,13 @@ export default {
         return "";
       }
     }
+    // changeCurrentPage(currentPage) {
+    //   this.options.pageNo = currentPage;
+    //   this.getProductList(currentPage);
+    // }
   },
   watch: {
-    $route(to, from) {
+    /* $route(to, from) {
       const { query, params } = to;
       const options = {
         ...this.options,
@@ -246,10 +240,31 @@ export default {
       console.log(options);
       this.options = options;
       this.getProductList();
+    } */
+    $route: {
+      handler(to, from) {
+        const { query, params } = to;
+        const options = {
+          ...this.options,
+          categoryName: "", // 需要重置分类相关数据
+          category1Id: "",
+          category2Id: "",
+          category3Id: "",
+          ...query,
+          ...params
+        };
+        // console.log(options);
+        this.options = options;
+        this.getProductList();
+      },
+      immediate: true
     }
   },
   computed: {
-    ...mapGetters(["goodsList"])
+    ...mapGetters(["goodsList"]),
+    ...mapState({
+      productList: state => state.search.productList
+    })
   },
   components: {
     SearchSelector

@@ -11,6 +11,7 @@ import TypeNav from './components/TypeNav'
 import store from "./store";
 import "./mock/mockServer";
 import Carousel from './components/Carousel'
+import Pagination from './components/Pagination'
 
 
 
@@ -18,6 +19,7 @@ Vue.config.productionTip = false;
 // 注册全局组件
 Vue.component('TypeNav', TypeNav) 
 Vue.component('Carousel', Carousel) 
+Vue.component('Pagination', Pagination) 
 
 
 new Vue({

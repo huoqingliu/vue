@@ -12,7 +12,14 @@ const mutations = {
 
 }
 const actions = {
-  async getProductList({commit},seacrchParams) {
+  async getProductList({ commit }, seacrchParams) {
+    seacrchParams = { ...seacrchParams }
+    Object.keys(seacrchParams).forEach(key => {
+      if (seacrchParams[key]==='') {
+        delete seacrchParams[key]
+      }
+    })
+    
     const result = await reqProductList(seacrchParams)
     if (result.code === 200) {
       const productList = result.data

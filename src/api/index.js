@@ -17,9 +17,12 @@ export const reqBanners = () => mockAjax.get('/banners')
 export const reqFloors = () => mockAjax.get('/floors')
 
 //请求接口，返回搜索结果
-export const reqProductList = (searchParams)=>ajax.post(`/list`,searchParams)
+export const reqProductList = (searchParams) => ajax.post(`/list`, searchParams)
 
-// reqProductList({});
+//请求接口，返回商品详情信息
+export const reqDetailInfo = (skuId) => ajax.get(`/item/${skuId}`)
+
+// reqDetailInfo();
 // reqBanners().then(result => {
 //   console.log(result);
 // })

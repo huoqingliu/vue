@@ -36,5 +36,12 @@ export default new VueRouter({
   mode: 'history', // 路由路径不带#号
   
   // 配置应用中的所有路由
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+      
+    }
+  }
 })
