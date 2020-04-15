@@ -35,7 +35,7 @@ export default {
         if (this.carouselList.length==0) {
           return ;
         }
-        console.log("watch", this.carouselList.length);
+        // console.log("watch", this.carouselList.length);
         this.$nextTick(() => {
           // new Swiper(".swiper-container",{
           new Swiper(this.$refs.swiper, {

@@ -8,12 +8,14 @@ import {
 const state = {
   cartList: [] //所有购物车列表   
 }
+
 const mutations = {
   RECEIVE_CART_LIST(state, cartList) {
     state.cartList = cartList
   }
 
 }
+
 const actions = {
   async addToCart({
     commit
@@ -33,19 +35,18 @@ const actions = {
     commit
   }, {
     skuId,
-    skuNum,
-    callback
+    skuNum
   }) {
     const result = await reqAddToCart(skuId, skuNum)
-    if (result.code === 200) {
-      return ('')
-    } else {
-      return (result.errorMsg || '添加购物车失败')
-    }
+    // if (result.code === 200) {
+    //   return ('')
+    // } else {
+    //   return (result.errorMsg || '添加购物车失败')
+    // }
+    return result.code === 200?'':result.errorMsg || '添加购物车失败'
   },
-  /* 
-  获取购物车数据列表的异步action
-  */
+
+  //获取购物车数据列表的异步action
   async getCartList({
     commit
   }) {
@@ -55,7 +56,28 @@ const actions = {
       commit('RECEIVE_CART_LIST', cartList)
     }
   },
+  
+  async deleteCartItem({commit},skuId) {
+
+    const result = await reqDeleteCartItem(skuId)
+    return result.code === 200?'':result.message||'商品删除失败'
+   
+  },
+
+  async checkCartItem({
+    commit
+  },{skuId,isChecked}) { 
+    /* skuID
+isChecked */
+    const result = await reqCheckCartItem({skuId,isChecked})
+    if (result.code !== 200) {
+      throw new Error('勾选购物项失败')
+    }
+  },
+
+
 }
+
 const getters = {
   /* 
    总数量
@@ -97,7 +119,18 @@ const getters = {
   isAllChecked(state) {
     // arr.every(): 判断所有的元素是否都满足条件
     return state.cartList.every((item, index) => item.isChecked === 1)
+  },
+
+  selectedItems(state) {
+    // state.cartList.filter((item, index) => item.isChecked===1)
+    return state.cartList.reduce((pre,item) => {
+      if (item.isChecked ===1) {
+        pre.push(item)
+      }
+      return pre
+    },[]);
   }
+
 }
 
 

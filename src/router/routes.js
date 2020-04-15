@@ -12,6 +12,7 @@ import ShopCart from '@/pages/ShopCart'
 
 export default [
   {
+    name:'home',
     path: '/',
     component: Home
   },

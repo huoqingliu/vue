@@ -1,4 +1,5 @@
-## 一、one-day
+## 一、`2020-3-6`
+
 
 ### ` this.$router`和`this.$route`的区别
 
@@ -123,7 +124,8 @@ router.push({ path: 'register', query: { plan: 'private' }})
 
 
 
-## 二、`two-day`
+## 二、`2020-3-7`
+
 
 ### **1.`postman`测试接口**
 
@@ -394,7 +396,7 @@ toSearch(event) {
 
 
 
-## 三、`three-day`
+## 三、`2020-3-8`
 
 #### `TypeNav`动态组件
 
@@ -870,7 +872,7 @@ toSearch(event) {
 
 
 
-## 四、`four-day`
+## 四、`2020-3-9`
 
 
 
@@ -985,7 +987,7 @@ toSearch(event) {
 
 
 
-## 五、five-day
+## 五、`2020-3-10`
 
 ### ajax + vuex
 
@@ -1021,60 +1023,60 @@ toSearch(event) {
 解决:
 	在$route的监视回调中, 重置options中的分类相关数据
 
-  ## 六、six-day
+## 六、`2020-3-11`
 
-### 自定义通用的分页组件
+  ### 自定义通用的分页组件
 
-### 使用已定义好的分页组件
-    <Pagination :pageConfig="{
-            total: productList.total,  // 总数据个数
-            showPageNo: 3,   // 连续页码
-            pageNo: options.pageNo, // 当前第几页
-            pageSize: options.pageSize // 每页最多几条数据
-        }"
-        @changeCurrentPage="getProductList"
-    />
+  ### 使用已定义好的分页组件
+      <Pagination :pageConfig="{
+              total: productList.total,  // 总数据个数
+              showPageNo: 3,   // 连续页码
+              pageNo: options.pageNo, // 当前第几页
+              pageSize: options.pageSize // 每页最多几条数据
+          }"
+          @changeCurrentPage="getProductList"
+      />
 
-### 设计通用组件的基本思路  (面试题, 非常重要)
-    基本的界面布局
-    设计内部状态数据 : 
-        currentPage: 当前页码
-    设计接收哪些动态属性数据:
-        pageConfig: {  
-          total: 0, // 总记录数量
-          pageSize: 10, // 一页最多显示多条记录
-          pageNo: 1, // 当前在第几页
-          showPageNo: 5, // 连续显示的页码数
-        }
-    实现组件内部的交互效果
-        绑定监听  => 更新数据 ==> 组件界面更新
-    设计当内部发生数据改变时, 通知外部父组件: 可以用vue自定义事件或函数属性来实现
-        // 保存当前页码
-        this.currentPage = currentPage
-        // 分发自定义事件
-        this.$emit('changeCurrentPage', currentPage)
-    当外部组件传入的数据发生改变时, 内部数据可能也需要变化
-        使用watch来监视外部数据的变化 ==> 同步修改内部数据
+  ### 设计通用组件的基本思路  (面试题, 非常重要)
+      基本的界面布局
+      设计内部状态数据 : 
+          currentPage: 当前页码
+      设计接收哪些动态属性数据:
+          pageConfig: {  
+            total: 0, // 总记录数量
+            pageSize: 10, // 一页最多显示多条记录
+            pageNo: 1, // 当前在第几页
+            showPageNo: 5, // 连续显示的页码数
+          }
+      实现组件内部的交互效果
+          绑定监听  => 更新数据 ==> 组件界面更新
+      设计当内部发生数据改变时, 通知外部父组件: 可以用vue自定义事件或函数属性来实现
+          // 保存当前页码
+          this.currentPage = currentPage
+          // 分发自定义事件
+          this.$emit('changeCurrentPage', currentPage)
+      当外部组件传入的数据发生改变时, 内部数据可能也需要变化
+          使用watch来监视外部数据的变化 ==> 同步修改内部数据
 
-### 实现
-    使用vue相关技术:
-        data / props / computed
-        绑定事件监听 / methods
-        watch / 分发自定义事件
-    难点:
-        计算: 总页数totalPages / 连续页码的start和end
-        连续页码的显示: v-for + v-if  ===> v-for的优先级最高, v-if在遍历过程中执行多次    面试题
+  ### 实现
+      使用vue相关技术:
+          data / props / computed
+          绑定事件监听 / methods
+          watch / 分发自定义事件
+      难点:
+          计算: 总页数totalPages / 连续页码的start和end
+          连续页码的显示: v-for + v-if  ===> v-for的优先级最高, v-if在遍历过程中执行多次    面试题
 
-## 商品详情Detail路由界面
+  ### 商品详情Detail路由界面
 
-### ajax + vuex
+  ### ajax + vuex
 
-### 动态显示商品部分信息
-    dispatch()
-    mapState() / mapGetters()
+  ### 动态显示商品部分信息
+      dispatch()
+      mapState() / mapGetters()
 
 
-## seven-day
+## 七、`2020-3-13`
 
   #### localStorage
      生命周期是永久，这意味着除非用户显示在浏览器提供的UI上清除localStorage信息，否则这些信息将永远存在。存放数据大小为一般为5MB,而且它仅在客户端（即浏览器）中保存，不参与和服务器的通信
@@ -1131,7 +1133,7 @@ toSearch(event) {
               return result.code===200 ? '' : (result.message || '添加购物车失败')
           3). 在组件中: 通过await来得到errorMsg, 根据它来做相应处理
 
-  ## 所有ajax请求都需要携带用户临时ID数据
+  ### 所有ajax请求都需要携带用户临时ID数据
       1). 理解userTempId的特点
           每个客户端应该不相同
           同一个客户端应该不要发生变化, 如果中途变化了, 前面通过userTempId保存在后台的数据就找不到了
@@ -1146,3 +1148,63 @@ toSearch(event) {
       3). 发送请求时携带已保存的userTempId
           在请求拦截器中: 读取state中保存的userTempId, 并添加到请求头中
           config.headers['userTempId'] = store.state.user.userTempId
+
+
+## 八、`2020-3-14`
+### 购物车数据管理
+
+#### 删除指定购物项
+    异步action中:  请求删除失败, 抛出包含提示文本的Error对象 
+    在组件中: dispatch()之后通过返回promise的成功或失败来做相应处理
+        如果成功: 重新获取购物项列表
+        如果失败: 提示文本
+
+#### 删除所有选中的购物项
+    得到所有选中: 利用数组的filter()/reduce()
+    遍历每个购物项, 分别都去dispatch()请求删除对应的购物项  (没有一次删除多个购物项的接口)
+        利用到数据的forEach() / reduce() / map()
+    通过Promise.All(promises)来确定是否都成功
+        如果都成功了: 重新获取购物项列表
+        如果失败: 提示文本
+
+
+#### 改变某个购物项的选中状态
+    组件化编码更新数据的基本原则: 
+        组件只直接更新自己的数据, 不要直接别人(父组件/vuex)数据 
+    组件中根据从vuex读取的数据来显示是否勾选
+        :checked="item.isChecked"
+    组件中当用户改变了勾选, 将最新的勾选状态同步到vuex中(可能要发请求)
+        @change="checkCartItem(item)"
+        根据dispatch()返回的promise是否成功做相应处理
+
+#### 改变所有购物项的选中状态
+    遍历所有购物项, 多次调用dispatch()删除多个购物项
+    通过Promise.All(promises)来确定是否都成功并做相应处理
+
+#### 修改某个购物项的数量
+    区别<input type="text">的change与input监听
+        change事件: 输入框失去焦点才触发
+        input事件: 输入发生改变时触发
+    action函数的参数: changeItemNum({commit, state, dispatch}, data) {}
+        commit: 执行触发mutation调用
+        state: 读取当前的状态数据
+        dispatch: 执行触发action调用
+    在action中
+        请求修改
+        成功了: dispatch('getCartList')获取新的购物车数据
+        失败了: 直接提示
+
+#### 图形验证码总是验证失败
+    原因:
+        显示图形验证码: 
+            http://182.92.128.115/api/user/passport/code
+            浏览器直接发送了这个请求, 并没有经过代理服务器
+            后台生成一个一个code值, 保存在后台, 并以图片的形式返回给浏览器显示
+        发注册请求:
+            通过代理服务器发送请求, 传过去了code / mobile / password
+            后台要读取对应的code与传过去的code进行对比
+            由于2次请求不是现一个人(一般http引擎与ajax引擎), 找不到对应的code
+            比较的结果总code不正确
+    解决:
+        获取验证码的请求与注册的请求都通过代理服务发送
+        不要写完整路径, 而只要写一个让代理服务器能匹配并处理的路径 

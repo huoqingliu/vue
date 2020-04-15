@@ -366,6 +366,7 @@ export default {
       // this.$store.dispatch('addToCart',{...this.query,callback:this.callback})
 
       const errorMsg = await this.$store.dispatch('addToCart2',this.query)
+      
       this.callback(errorMsg)
 
     },
