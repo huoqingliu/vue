@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" ref="swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide" v-for="(skuImage, index) in skuImageList" :key="skuImage.id">
         <img
@@ -9,8 +9,10 @@
         />
       </div>
     </div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-pagination"></div>
     <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    
   </div>
 </template>
 
@@ -27,6 +29,9 @@ export default {
       currentIndex: 0
     };
   },
+  props:{
+    skuImageList:Array
+  },
 
   /* mounted() {
     // 取出skuId的params参数
@@ -37,14 +42,14 @@ export default {
     this.$store.dispatch("getDetailInfo", skuId);
   }, */
 
-  computed: {
-    ...mapGetters(["skuImageList"])
-  },
+  // computed: {
+  //   ...mapGetters(["skuImageList"])
+  // },
   watch: {
     skuImageList: {
-      handler(value) {
+      handler() {
         // 如果图片数组长度为0, 直接结束
-        if (value.length == 0) return;
+        if (this.skuImageList.length == 0) return;
         // 延迟到界面更新后才创建swiper对象
         this.$nextTick(() => {
           new Swiper(this.$refs.swiper, {

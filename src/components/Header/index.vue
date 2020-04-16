@@ -92,7 +92,8 @@ export default {
       try {
         await this.$store.dispatch("Logout");
         alert("退出登录成功");
-        this.$router.push({ path: "/" });
+        window.localStorage.removeItem("USERINFO_KEY");
+        // this.$router.push({ path: "/" });
       } catch (error) {
         alert(error);
       }

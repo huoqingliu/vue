@@ -2,7 +2,7 @@ import { getUUID } from "@/utils/storageUtils";
 import { reqRegistration, reqLogin ,reqLogout} from "@/api";
 
 const state = {
-  userInfo: {},
+  userInfo: JSON.parse(localStorage.getItem("USERINFO_KEY")) ||{},
   userTempId:getUUID()
 }
 

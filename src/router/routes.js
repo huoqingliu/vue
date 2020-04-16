@@ -8,6 +8,11 @@ import Login from '@/pages/Login'
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/Detail/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Center from '@/pages/Center'
+import Pay from '@/pages/Pay'
+import PaySuccess from '@/pages/PaySuccess'
+import Trade from '@/pages/Trade'
+
 
 
 export default [
@@ -49,13 +54,36 @@ export default [
     component: Detail,
   },
   {
+    name: 'shopCart', // 如果是params参数需要指定此名称
+    path: '/shopCart', // 指定通过params参数携带数据  ?代表params参数可以不传
+    component: ShopCart,
+  },
+  {
     name: 'addCartSuccess', // 如果是params参数需要指定此名称
     path: '/addCartSuccess', // 指定通过params参数携带数据  ?代表params参数可以不传
     component: AddCartSuccess,
   },
   {
-    name: 'shopCart', // 如果是params参数需要指定此名称
-    path: '/shopCart', // 指定通过params参数携带数据  ?代表params参数可以不传
-    component: ShopCart,
+    name: 'center', // 如果是params参数需要指定此名称
+    path: '/center', // 指定通过params参数携带数据  ?代表params参数可以不传
+    component: Center,
+  },
+  {
+    name: 'pay', // 如果是params参数需要指定此名称
+    path: '/pay', // 指定通过params参数携带数据  ?代表params参数可以不传
+    component: Pay,
+    // props: {
+      
+    // }
+  },
+  {
+    name: 'paySuccess', // 如果是params参数需要指定此名称
+    path: '/paySuccess', // 指定通过params参数携带数据  ?代表params参数可以不传
+    component: PaySuccess,
+  },
+  {
+    name: 'trade', // 如果是params参数需要指定此名称
+    path: '/trade', // 指定通过params参数携带数据  ?代表params参数可以不传
+    component: Trade,
   }
 ]

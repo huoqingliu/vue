@@ -22,7 +22,8 @@
             :bigImgUrl="skuImageList[currentIndex].imgUrl"
           />
           <!-- 小图列表 -->
-          <ImageList @changeCurrentIndex="changeCurrentIndex" />
+          <ImageList @changeCurrentIndex="changeCurrentIndex" :skuImageList='skuImageList'/>
+          <!-- <Carousel @changeCurrentIndex="changeCurrentIndex" :carouselList='skuImageList'/> -->
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -337,6 +338,7 @@ export default {
       skuNum:1
     }
   },
+  
   mounted() {
     // 取出skuId的params参数
     const skuId = this.$route.params.skuId;

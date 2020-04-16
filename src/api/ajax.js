@@ -13,7 +13,12 @@ ajax.interceptors.request.use((config) => {
   // 显示请求进度条
   NProgress.start()
 
-  config.headers['userTempId']=store.state.user.userTempId
+  config.headers['userTempId'] = store.state.user.userTempId
+  const token = store.state.user.userInfo.token
+  if (token) {
+  config.headers['token'] = token
+  }
+
   // 必须返回config
   return config
 })
