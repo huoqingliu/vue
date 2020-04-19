@@ -82,7 +82,7 @@ export default {
     return {
       mobile: "",
       password: ""
-    }
+    };
   },
   // props:{
   //   redirect:String
@@ -98,10 +98,10 @@ export default {
           "USERINFO_KEY",
           JSON.stringify(this.userInfo)
         );
-        
-        const {redirect} = this.$route.query
+
+        const { redirect } = this.$route.query;
         // alert("登录成功，自动跳转到首页");
-        this.$router.push(redirect);
+        this.$router.push('/');
       } catch (error) {
         alert(error);
       }
@@ -111,6 +111,25 @@ export default {
     ...mapState({
       userInfo: state => state.user.userInfo
     })
+  },
+  /* 
+      报错: Cannot read property '$store' of undefined
+      分析: beforeRouteEnter()是在路由组件对象创建前调用的, this是undefined, 不能直接使用
+
+      */
+  beforeRouteEnter: (to, form, next) => {
+    // if (this.$store.state.user.userInfo.name) {
+    //   next("/");
+    // } else {
+    //   next();
+    // }
+    next(component => {// 此回调函数在组件对象被创建后才自动执行, 且传入了组件对象
+      if (component.$store.state.user.userInfo.name) {// 如果已经登陆, 自动跳转到首页
+        next("/");
+      } else {// 如果没登陆, 放行显示登陆界面
+        next();
+      }
+    });
   }
 };
 </script>

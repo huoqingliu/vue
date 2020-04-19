@@ -25,7 +25,10 @@ export const reqAddToCart = (skuId, skuNum) => ajax.post(`/cart/addToCart/${skuI
 export const reqCartList = () => ajax.get('/cart/cartList')
 
 //切换商品选中状态
-export const reqCheckCartItem = ({skuId, isChecked}) => ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
+export const reqCheckCartItem = ({
+  skuId,
+  isChecked
+}) => ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
 
 // 删除购物车商品 /api/cart/deleteCart/{skuId}
 export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)
@@ -37,11 +40,11 @@ export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuI
   password,
   code
 } */
-export const reqRegistration = (userInfo) => ajax.post(`user/passport/register`,userInfo)
+export const reqRegistration = (userInfo) => ajax.post(`user/passport/register`, userInfo)
 
 
-  // 登录 
-  // / api / user / passport / login
+// 登录 
+// / api / user / passport / login
 /*userInfo {
   mobile,
   password
@@ -51,11 +54,32 @@ export const reqRegistration = (userInfo) => ajax.post(`user/passport/register`,
 //   mobile,
 //   password
 // })
-export const reqLogin = (userInfo) => ajax.post('user/passport/login',userInfo)
+export const reqLogin = (userInfo) => ajax.post('user/passport/login', userInfo)
 
 
-// 注销登录 /api/cart/deleteCart/{skuId}
-export const reqLogout = () => ajax.get('/user/passport/logout')  // 后台需要删除对应的数据
+// 注销登录 /api/user/passport/logout
+export const reqLogout = () => ajax.get('/user/passport/logout') 
+
+
+// 订单交易信息 /api/order/auth/trade
+
+export const reqTradeInfo = () => ajax.get('/order/auth/trade') 
+
+
+// 提交订单 /api/order/auth/submitOrder?tradeNo={tradeNo}
+
+export const reqSubmitOrder = (tradeNo, orderInfo) => ajax.post(
+`/order/auth/submitOrder/?tradeNo=${tradeNo}`, orderInfo)
+
+// 订单支付 /api/payment/weixin/createNative/{orderId}
+export const reqPayInfo = (orderId) => ajax.get(`/payment/weixin/createNative/${orderId}`)
+
+
+// 订单支付状态查询 /api/payment/weixin/queryPayStatus/{orderId}
+export const reqPaySuccess = (orderId) => ajax.get(`/payment/weixin/queryPayStatus/${orderId}`)
+
+// 我的订单查询   /api/order/auth/{page}/{limit}
+export const reqMyOrders = (page,limit) => ajax.get(`/order/auth/${page}/${limit}`)
 
 //测试数据
 
